@@ -7623,6 +7623,10 @@ paths:
       responses:
         "200":
           description: Success
+          content:
+            application/json; charset=utf-8:
+              schema:
+                type: object
         "400":
           description: Bad Request
           content:
@@ -7667,6 +7671,9 @@ paths:
       tags:
         - Roles
       operationId: v1AddUserRoleToProject
+      requestBody:
+        content:
+          text/plain;charset=UTF-8: {}
     delete:
       deprecated: false
       summary: Remove user role from project
@@ -7676,6 +7683,10 @@ paths:
       responses:
         "200":
           description: Success
+          content:
+            application/json; charset=utf-8:
+              schema:
+                type: object
         "400":
           description: Bad Request
           content:
@@ -7720,6 +7731,9 @@ paths:
       tags:
         - Roles
       operationId: v1RemoveUserRoleFromProject
+      requestBody:
+        content:
+          text/plain;charset=UTF-8: {}
   "/v1/roles/projects/{projectId}/teams/{teamId}/roles/{roleId}":
     put:
       deprecated: false
@@ -8256,6 +8270,9 @@ paths:
       tags:
         - Teams
       operationId: v1AddUserToTeam
+      requestBody:
+        content:
+          text/plain;charset=UTF-8: {}
     delete:
       deprecated: false
       summary: Remove user from team
@@ -8302,6 +8319,9 @@ paths:
       tags:
         - Teams
       operationId: v1RemoveUserFromTeam
+      requestBody:
+        content:
+          text/plain;charset=UTF-8: {}
   /v1/users:
     post:
       deprecated: false
