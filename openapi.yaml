@@ -6228,6 +6228,9 @@ paths:
       tags:
         - Instances
       operationId: v1StartNetworkMonitor
+      requestBody:
+        content:
+          text/plain;charset=UTF-8: {}
   "/v1/instances/{instanceId}/sslsplit/disable":
     post:
       deprecated: false
@@ -6260,6 +6263,9 @@ paths:
       tags:
         - Instances
       operationId: v1StopNetworkMonitor
+      requestBody:
+        content:
+          text/plain;charset=UTF-8: {}
   "/v1/instances/{instanceId}/exposeport/enable":
     post:
       deprecated: false
