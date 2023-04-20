@@ -4592,6 +4592,9 @@ paths:
       tags:
         - Instances
       operationId: v1RebootInstance
+      requestBody:
+        content:
+          text/plain;charset=UTF-8: {}
   "/v1/instances/{instanceId}/pause":
     post:
       deprecated: false
@@ -4638,6 +4641,9 @@ paths:
       tags:
         - Instances
       operationId: v1PauseInstance
+      requestBody:
+        content:
+          text/plain;charset=UTF-8: {}
   "/v1/instances/{instanceId}/unpause":
     post:
       deprecated: false
@@ -4684,6 +4690,9 @@ paths:
       tags:
         - Instances
       operationId: v1UnpauseInstance
+      requestBody:
+        content:
+          text/plain;charset=UTF-8: {}
   "/v1/instances/{instanceId}/state":
     put:
       deprecated: false
