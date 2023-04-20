@@ -8011,6 +8011,9 @@ paths:
       tags:
         - Snapshots
       operationId: v1DeleteSnapshot
+      requestBody:
+        content:
+          text/plain;charset=UTF-8: {}
   /v1/teams:
     get:
       deprecated: false
