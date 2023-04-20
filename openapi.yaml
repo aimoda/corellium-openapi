@@ -524,7 +524,6 @@ components:
       description: ""
       required:
         - error
-        - errorID
       type: object
       properties:
         error:
