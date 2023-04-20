@@ -5181,6 +5181,14 @@ paths:
             image/jpeg:
               schema:
                 $ref: "#/components/schemas/Screenshot"
+            application/json; charset=utf-8:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                required:
+                  - token
         "403":
           description: Forbidden
           content:
