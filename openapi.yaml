@@ -1083,7 +1083,6 @@ components:
         - ipsw
         - orig-ipsw-url
         - ipsw_md5
-        - node
       type: object
       properties:
         name:
