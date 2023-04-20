@@ -488,11 +488,13 @@ components:
         identifier:
           type: string
         checksum:
-          type: "null"
+          type: string
+          nullable: true
         encoding:
           type: string
         instance:
-          type: "null"
+          type: string
+          nullable: true
     ImageCreationOptions:
       description: ""
       required:
@@ -535,6 +537,8 @@ components:
       description: ""
       required:
         - error
+        - name
+        - params
       type: object
       properties:
         error:
@@ -549,6 +553,15 @@ components:
           description: Field associated with error
           type: string
           nullable: true
+        name:
+          type: string
+        params:
+          type: object
+          properties:
+            sessionId:
+              type: string
+          required:
+            - sessionId
     ValidationError:
       description: ""
       required:
@@ -645,8 +658,10 @@ components:
           properties:
             imageId:
               type: string
+            teamId:
+              type: string
           required:
-            - imageId
+            - teamId
     File:
       description: A File
       type: string
@@ -1029,14 +1044,18 @@ components:
                 required:
                   - trait
                   - value
+            length:
+              type: number
           required:
             - enabled
         hyperTrace:
           type: object
           properties:
             enabled:
-              type: boolean
-              nullable: true
+              oneOf:
+                - type: boolean
+                  nullable: true
+                - type: string
           required:
             - enabled
         port-adb:
@@ -1322,8 +1341,25 @@ components:
             - AgentError
         originalError:
           description: The full error encountered by the agent
-          type: object
-          nullable: true
+          properties:
+            file_name:
+              type: string
+            line_number:
+              type: number
+            message:
+              type: string
+            name:
+              type: string
+          required:
+            - file_name
+            - line_number
+            - message
+            - name
+          oneOf:
+            - description: The full error encountered by the agent
+              type: object
+              nullable: true
+            - type: string
     AgentAppReadyResponse:
       description: ""
       required:
@@ -2039,6 +2075,10 @@ components:
           description: ""
           type: number
           nullable: true
+        cpus:
+          type: number
+      required:
+        - cpus
     ProjectUsage:
       description: ""
       type: object
@@ -2059,6 +2099,12 @@ components:
           description: ""
           type: number
           nullable: true
+        instance:
+          type: number
+        cpus:
+          type: number
+      required:
+        - cpus
     Project:
       description: ""
       required: []
@@ -2097,11 +2143,14 @@ components:
             - cores
             - instances
             - ram
+        color:
+          type: number
     ProjectKey:
       description: ""
       required:
         - kind
         - key
+        - label
       type: object
       properties:
         identifier:
@@ -2137,6 +2186,8 @@ components:
           type: string
           format: date-time
           nullable: true
+        label:
+          type: string
     Role:
       description: ""
       required:
@@ -2439,9 +2490,7 @@ components:
     WebPlayerSession:
       description: ""
       required:
-        - identifier
-        - token
-        - expiration
+        - allowedDomains
       type: object
       properties:
         identifier:
@@ -2453,6 +2502,10 @@ components:
         expiration:
           description: Expiration in ISO-8601 format e.g. 2022-05-06T02:39:23.000Z
           type: number
+        allowedDomains:
+          type: array
+          items:
+            type: string
 paths:
   /v1/auth/login:
     post:
@@ -4666,6 +4719,7 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/InstanceStopOptions"
+          text/plain;charset=UTF-8: {}
         description: Stop options
         required: false
       operationId: v1StopInstance
@@ -5035,6 +5089,17 @@ paths:
                           - 0
                           - 0
                           - 1
+        "400":
+          description: 400 response
+          content:
+            application/json; charset=utf-8:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
         "403":
           description: Forbidden
           content:
@@ -6828,6 +6893,23 @@ paths:
                     date: 1648841621000
                     live: false
                     local: true
+        "400":
+          description: 400 response
+          content:
+            application/json; charset=utf-8:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  errorID:
+                    type: string
+                  field:
+                    type: string
+                required:
+                  - error
+                  - errorID
+                  - field
         "403":
           description: Forbidden
           content:
@@ -7689,6 +7771,9 @@ paths:
       tags:
         - Projects
       operationId: v1RemoveProjectKey
+      requestBody:
+        content:
+          text/plain;charset=UTF-8: {}
   /v1/roles:
     get:
       deprecated: false
@@ -8365,6 +8450,9 @@ paths:
       tags:
         - Teams
       operationId: v1TeamDelete
+      requestBody:
+        content:
+          text/plain;charset=UTF-8: {}
   "/v1/teams/{teamId}/users/{userId}":
     put:
       deprecated: false
@@ -8565,6 +8653,25 @@ paths:
           application/json:
             schema:
               type: object
+              properties:
+                name:
+                  type: string
+                label:
+                  type: string
+                email:
+                  type: string
+                password:
+                  oneOf:
+                    - type: string
+                      nullable: true
+                administrator:
+                  type: boolean
+              required:
+                - name
+                - label
+                - email
+                - password
+                - administrator
         description: User data
         required: true
       operationId: v1UpdateUser
@@ -8604,6 +8711,9 @@ paths:
       tags:
         - Users
       operationId: v1DeleteUser
+      requestBody:
+        content:
+          text/plain;charset=UTF-8: {}
   /v1/users/login:
     post:
       deprecated: false
@@ -8780,6 +8890,23 @@ paths:
             application/json:
               schema:
                 type: object
+        "400":
+          description: 400 response
+          content:
+            application/json; charset=utf-8:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  errorID:
+                    type: string
+                  field:
+                    type: string
+                required:
+                  - error
+                  - errorID
+                  - field
         "403":
           description: Forbidden
           content:
@@ -8908,6 +9035,14 @@ paths:
       security:
         - BearerAuth: []
       responses:
+        "200":
+          description: 200 response
+          content:
+            application/json; charset=utf-8:
+              schema:
+                type: array
+                items:
+                  type: string
         "400":
           description: Bad Request
           content:
