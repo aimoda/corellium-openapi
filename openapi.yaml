@@ -1367,7 +1367,6 @@ components:
           type: boolean
       required:
         - date
-        - isLaunchable
     AgentAppsList:
       description: ""
       type: object
