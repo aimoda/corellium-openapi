@@ -7744,6 +7744,10 @@ paths:
       responses:
         "200":
           description: Success
+          content:
+            application/json; charset=utf-8:
+              schema:
+                type: object
         "400":
           description: Bad Request
           content:
@@ -7788,6 +7792,9 @@ paths:
       tags:
         - Roles
       operationId: v1AddTeamRoleToProject
+      requestBody:
+        content:
+          text/plain;charset=UTF-8: {}
     delete:
       deprecated: false
       summary: Remove team role from project
@@ -7797,6 +7804,10 @@ paths:
       responses:
         "200":
           description: Success
+          content:
+            application/json; charset=utf-8:
+              schema:
+                type: object
         "400":
           description: Bad Request
           content:
@@ -7841,6 +7852,9 @@ paths:
       tags:
         - Roles
       operationId: v1RemoveTeamRoleFromProject
+      requestBody:
+        content:
+          text/plain;charset=UTF-8: {}
   "/v1/snapshots/{snapshotId}":
     get:
       deprecated: false
