@@ -1447,6 +1447,13 @@ components:
           description: The requested value
           type: string
           nullable: true
+        id:
+          type: number
+        success:
+          type: boolean
+      required:
+        - id
+        - success
     AgentSystemGetPropBody:
       description: ""
       required:
