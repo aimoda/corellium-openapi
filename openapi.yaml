@@ -720,9 +720,64 @@ components:
         cdhashes:
           type: array
           items: {}
+        kernel:
+          type: "null"
+        ramdisk:
+          type: "null"
+        partition:
+          type: "null"
+        devicetree:
+          type: "null"
+        vmfile:
+          type: "null"
+        fvp:
+          type: "null"
+        sepfw:
+          type: "null"
+        seprom:
+          type: "null"
+        kernelPatches:
+          type: "null"
+        cores:
+          type: number
+        ram:
+          type: number
+        tzen:
+          type: "null"
+        uefiBootldr:
+          type: "null"
+        bootaddr:
+          type: string
+        supportsStringUDID:
+          type: boolean
+        authorizedKeys:
+          type: string
       required:
         - noSnapshotMount
         - cdhashes
+        - kernel
+        - ramdisk
+        - partition
+        - devicetree
+        - vmfile
+        - fvp
+        - sepfw
+        - seprom
+        - kernelPatches
+        - cores
+        - ram
+        - tzen
+        - uefiBootldr
+        - bootaddr
+        - supportsStringUDID
+        - authorizedKeys
+        - kernelPatches
+        - cores
+        - ram
+        - tzen
+        - uefiBootldr
+        - bootaddr
+        - fvp
     InstanceState:
       description: Current Instance State
       type: string
@@ -940,7 +995,6 @@ components:
               type: string
           required:
             - type
-            - progress
         port-usb:
           type: string
         port-gdb:
@@ -968,7 +1022,6 @@ components:
                   - value
           required:
             - enabled
-            - filter
         hyperTrace:
           type: object
           properties:
@@ -976,14 +1029,19 @@ components:
               type: "null"
           required:
             - enabled
+        port-adb:
+          type: string
+        orientation:
+          type: number
       required:
         - restoreStatus
-        - port-usb
         - port-gdb
         - port-cons
         - port-usbmuxd
         - coreTrace
         - hyperTrace
+        - port-adb
+        - orientation
     createdBy:
       description: ""
       type: object
@@ -1029,6 +1087,10 @@ components:
         - flavor
         - project
         - os
+        - ipsw
+        - orig-ipsw-url
+        - ipsw_sha1
+        - ipsw_md5
       type: object
       properties:
         name:
@@ -1055,10 +1117,13 @@ components:
           nullable: true
         patches:
           description: list of patches to apply
-          type: array
-          items:
-            type: string
-          nullable: true
+          oneOf:
+            - description: list of patches to apply
+              type: array
+              items:
+                type: string
+              nullable: true
+            - type: string
         fwpackage:
           description: URL or image id
           type: string
@@ -1093,6 +1158,14 @@ components:
           description: ""
           $ref: "#/components/schemas/Model"
           nullable: true
+        ipsw:
+          type: string
+        orig-ipsw-url:
+          type: string
+        ipsw_sha1:
+          type: "null"
+        ipsw_md5:
+          type: string
     InstanceReturn:
       description: ""
       required:
@@ -1163,8 +1236,31 @@ components:
                 oneOf:
                   - type: string
                   - type: number
-          required:
-            - magnetic
+            light:
+              type: string
+            pressure:
+              type: string
+            humidity:
+              type: string
+            temperature:
+              type: string
+            orientation:
+              type: array
+              items:
+                oneOf:
+                  - type: string
+                  - type: number
+            proximity:
+              type: string
+            batteryCapacity:
+              type: string
+            batteryHealth:
+              type: string
+            acOnline:
+              type: number
+            batteryStatus:
+              type: string
+          required: []
         straceFilter:
           type: array
           items:
@@ -1177,8 +1273,7 @@ components:
             required:
               - trait
               - value
-      required:
-        - straceFilter
+      required: []
     ProxyConfig:
       description: Represents a Proxy configuration object.
       type: object
@@ -1269,6 +1364,15 @@ components:
           description: ""
           type: string
           nullable: true
+        date:
+          type: number
+        icon:
+          type: string
+        isLaunchable:
+          type: boolean
+      required:
+        - date
+        - isLaunchable
     AgentAppsList:
       description: ""
       type: object
@@ -1283,6 +1387,10 @@ components:
           description: bundleID of frontmost app or empty string if none are frontmost
           type: string
           nullable: true
+        success:
+          type: boolean
+      required:
+        - success
     AgentAppStatus:
       description: ""
       type: object
@@ -1308,15 +1416,6 @@ components:
         frontmost:
           description: bundleID of frontmost app or empty string if none are frontmost
           type: string
-          nullable: true
-    AgentIcons:
-      description: ""
-      type: object
-      properties:
-        icon:
-          description: The data for an icon
-          type: string
-          format: byte
           nullable: true
     FileChanges:
       description: ""
@@ -1357,6 +1456,13 @@ components:
           description: The requested value
           type: string
           nullable: true
+        id:
+          type: number
+        success:
+          type: boolean
+      required:
+        - id
+        - success
     AgentSystemGetPropBody:
       description: ""
       required:
@@ -1517,12 +1623,26 @@ components:
           type: number
         biometricPass:
           type: number
+        acOnline:
+          type: number
+        batteryPresent:
+          type: number
+        batteryStatus:
+          type: string
+        batteryHealth:
+          type: string
+        batteryCapacity:
+          type: number
       required:
         - gpsToffs
         - gpsLat
         - gpsLon
         - gpsAlt
-        - biometricPass
+        - acOnline
+        - batteryPresent
+        - batteryStatus
+        - batteryHealth
+        - batteryCapacity
     Screenshot:
       description: Screenshot Data
       type: string
@@ -1911,7 +2031,7 @@ components:
     Project:
       description: ""
       required:
-        - id
+        - usage
       type: object
       properties:
         id:
@@ -1934,6 +2054,19 @@ components:
           description: ""
           $ref: "#/components/schemas/ProjectUsage"
           nullable: true
+        usage:
+          type: object
+          properties:
+            cores:
+              type: number
+            instances:
+              type: number
+            ram:
+              type: number
+          required:
+            - cores
+            - instances
+            - ram
     ProjectKey:
       description: ""
       required:
@@ -1979,7 +2112,6 @@ components:
       required:
         - role
         - project
-        - user
       type: object
       properties:
         role:
@@ -1996,6 +2128,8 @@ components:
           description: User ID
           type: string
           format: uuid
+        team:
+          type: string
     SnapshotStatus:
       description: ""
       type: object
@@ -3285,6 +3419,9 @@ paths:
       tags:
         - Instances
       operationId: v1DeleteInstance
+      requestBody:
+        content:
+          text/plain;charset=UTF-8: {}
   "/v1/instances/{instanceId}/agent/v1/app/ready":
     get:
       deprecated: false
@@ -3438,9 +3575,36 @@ paths:
           content:
             application/json:
               schema:
-                type: array
                 items:
                   $ref: "#/components/schemas/AgentIcons"
+                oneOf:
+                  - type: array
+                    items:
+                      description: ""
+                      type: object
+                      properties:
+                        icon:
+                          description: The data for an icon
+                          type: string
+                          format: byte
+                          nullable: true
+                  - type: object
+                    properties:
+                      icons:
+                        type: object
+                        properties:
+                          com.panasonic.jp.lumixsync:
+                            type: string
+                        required:
+                          - com.panasonic.jp.lumixsync
+                      id:
+                        type: number
+                      success:
+                        type: boolean
+                    required:
+                      - icons
+                      - id
+                      - success
               examples:
                 example1:
                   summary: Icons
@@ -3597,6 +3761,68 @@ paths:
             application/octet-stream:
               schema:
                 $ref: "#/components/schemas/File"
+            application/json; charset=utf-8:
+              schema:
+                type: object
+                properties:
+                  atime:
+                    type: number
+                  ctime:
+                    type: number
+                  entries:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        atime:
+                          type: number
+                        ctime:
+                          type: number
+                        gid:
+                          type: number
+                        mode:
+                          type: number
+                        mtime:
+                          type: number
+                        name:
+                          type: string
+                        size:
+                          type: number
+                        uid:
+                          type: number
+                        isSymbolicLink:
+                          type: boolean
+                      required:
+                        - atime
+                        - ctime
+                        - gid
+                        - mode
+                        - mtime
+                        - name
+                        - size
+                        - uid
+                  gid:
+                    type: number
+                  mode:
+                    type: number
+                  mtime:
+                    type: number
+                  name:
+                    type: string
+                  size:
+                    type: number
+                  uid:
+                    type: number
+                required:
+                  - atime
+                  - ctime
+                  - entries
+                  - gid
+                  - mode
+                  - mtime
+                  - name
+                  - size
+                  - uid
         "400":
           description: Agent Error
           content:
@@ -4381,6 +4607,9 @@ paths:
       tags:
         - Instances
       operationId: v1RebootInstance
+      requestBody:
+        content:
+          text/plain;charset=UTF-8: {}
   "/v1/instances/{instanceId}/pause":
     post:
       deprecated: false
@@ -6014,6 +6243,9 @@ paths:
       tags:
         - Instances
       operationId: v1StartNetworkMonitor
+      requestBody:
+        content:
+          text/plain;charset=UTF-8: {}
   "/v1/instances/{instanceId}/sslsplit/disable":
     post:
       deprecated: false
@@ -6046,6 +6278,9 @@ paths:
       tags:
         - Instances
       operationId: v1StopNetworkMonitor
+      requestBody:
+        content:
+          text/plain;charset=UTF-8: {}
   "/v1/instances/{instanceId}/exposeport/enable":
     post:
       deprecated: false
@@ -6930,6 +7165,25 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Project"
+        "400":
+          description: 400 response
+          content:
+            application/json; charset=utf-8:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  errorID:
+                    type: string
+                  field:
+                    type: string
+                  originalError:
+                    type: string
+                required:
+                  - error
+                  - errorID
+                  - originalError
         "403":
           description: Forbidden
           content:
@@ -6993,6 +7247,9 @@ paths:
       tags:
         - Projects
       operationId: v1DeleteProject
+      requestBody:
+        content:
+          text/plain;charset=UTF-8: {}
   "/v1/projects/{projectId}/instances":
     get:
       deprecated: false
@@ -7368,6 +7625,10 @@ paths:
       responses:
         "200":
           description: Success
+          content:
+            application/json; charset=utf-8:
+              schema:
+                type: object
         "400":
           description: Bad Request
           content:
@@ -7412,6 +7673,9 @@ paths:
       tags:
         - Roles
       operationId: v1AddUserRoleToProject
+      requestBody:
+        content:
+          text/plain;charset=UTF-8: {}
     delete:
       deprecated: false
       summary: Remove user role from project
@@ -7421,6 +7685,10 @@ paths:
       responses:
         "200":
           description: Success
+          content:
+            application/json; charset=utf-8:
+              schema:
+                type: object
         "400":
           description: Bad Request
           content:
@@ -7465,6 +7733,9 @@ paths:
       tags:
         - Roles
       operationId: v1RemoveUserRoleFromProject
+      requestBody:
+        content:
+          text/plain;charset=UTF-8: {}
   "/v1/roles/projects/{projectId}/teams/{teamId}/roles/{roleId}":
     put:
       deprecated: false
@@ -7475,6 +7746,10 @@ paths:
       responses:
         "200":
           description: Success
+          content:
+            application/json; charset=utf-8:
+              schema:
+                type: object
         "400":
           description: Bad Request
           content:
@@ -7519,6 +7794,9 @@ paths:
       tags:
         - Roles
       operationId: v1AddTeamRoleToProject
+      requestBody:
+        content:
+          text/plain;charset=UTF-8: {}
     delete:
       deprecated: false
       summary: Remove team role from project
@@ -7528,6 +7806,10 @@ paths:
       responses:
         "200":
           description: Success
+          content:
+            application/json; charset=utf-8:
+              schema:
+                type: object
         "400":
           description: Bad Request
           content:
@@ -7572,6 +7854,9 @@ paths:
       tags:
         - Roles
       operationId: v1RemoveTeamRoleFromProject
+      requestBody:
+        content:
+          text/plain;charset=UTF-8: {}
   "/v1/snapshots/{snapshotId}":
     get:
       deprecated: false
@@ -7998,6 +8283,9 @@ paths:
       tags:
         - Teams
       operationId: v1AddUserToTeam
+      requestBody:
+        content:
+          text/plain;charset=UTF-8: {}
     delete:
       deprecated: false
       summary: Remove user from team
@@ -8044,6 +8332,9 @@ paths:
       tags:
         - Teams
       operationId: v1RemoveUserFromTeam
+      requestBody:
+        content:
+          text/plain;charset=UTF-8: {}
   /v1/users:
     post:
       deprecated: false
@@ -8145,6 +8436,25 @@ paths:
           application/json:
             schema:
               type: object
+              properties:
+                name:
+                  type: string
+                label:
+                  type: string
+                email:
+                  type: string
+                password:
+                  oneOf:
+                    - type: string
+                    - type: "null"
+                administrator:
+                  type: boolean
+              required:
+                - name
+                - label
+                - email
+                - password
+                - administrator
         description: User data
         required: true
       operationId: v1UpdateUser
