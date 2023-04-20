@@ -1359,6 +1359,15 @@ components:
           description: ""
           type: string
           nullable: true
+        icon:
+          type: string
+        date:
+          type: number
+        isLaunchable:
+          type: boolean
+      required:
+        - date
+        - isLaunchable
     AgentAppsList:
       description: ""
       type: object
@@ -1373,6 +1382,10 @@ components:
           description: bundleID of frontmost app or empty string if none are frontmost
           type: string
           nullable: true
+        success:
+          type: boolean
+      required:
+        - success
     AgentAppStatus:
       description: ""
       type: object
