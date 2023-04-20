@@ -1776,7 +1776,7 @@ components:
     Project:
       description: ""
       required:
-        - id
+        - usage
       type: object
       properties:
         id:
@@ -1799,6 +1799,19 @@ components:
           description: ""
           $ref: "#/components/schemas/ProjectUsage"
           nullable: true
+        usage:
+          type: object
+          properties:
+            cores:
+              type: number
+            instances:
+              type: number
+            ram:
+              type: number
+          required:
+            - cores
+            - instances
+            - ram
     ProjectKey:
       description: ""
       required:
@@ -6790,6 +6803,25 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Project"
+        "400":
+          description: 400 response
+          content:
+            application/json; charset=utf-8:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  errorID:
+                    type: string
+                  field:
+                    type: string
+                  originalError:
+                    type: string
+                required:
+                  - error
+                  - errorID
+                  - originalError
         "403":
           description: Forbidden
           content:
@@ -6853,6 +6885,9 @@ paths:
       tags:
         - Projects
       operationId: v1DeleteProject
+      requestBody:
+        content:
+          text/plain;charset=UTF-8: {}
   "/v1/projects/{projectId}/instances":
     get:
       deprecated: false
