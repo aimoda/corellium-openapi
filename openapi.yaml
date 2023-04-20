@@ -1944,8 +1944,7 @@ components:
           nullable: true
     Project:
       description: ""
-      required:
-        - usage
+      required: []
       type: object
       properties:
         id:
@@ -6993,7 +6992,6 @@ paths:
                 required:
                   - error
                   - errorID
-                  - originalError
         "403":
           description: Forbidden
           content:
