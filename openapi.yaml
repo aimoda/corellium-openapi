@@ -3712,6 +3712,67 @@ paths:
             application/octet-stream:
               schema:
                 $ref: "#/components/schemas/File"
+            application/json; charset=utf-8:
+              schema:
+                type: object
+                properties:
+                  entries:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                        uid:
+                          type: number
+                        ctime:
+                          type: number
+                        mode:
+                          type: number
+                        mtime:
+                          type: number
+                        size:
+                          type: number
+                        gid:
+                          type: number
+                        atime:
+                          type: number
+                        isSymbolicLink:
+                          type: boolean
+                      required:
+                        - name
+                        - uid
+                        - ctime
+                        - mode
+                        - mtime
+                        - size
+                        - gid
+                        - atime
+                  uid:
+                    type: number
+                  ctime:
+                    type: number
+                  mode:
+                    type: number
+                  mtime:
+                    type: number
+                  size:
+                    type: number
+                  gid:
+                    type: number
+                  atime:
+                    type: number
+                  name:
+                    type: string
+                required:
+                  - entries
+                  - uid
+                  - ctime
+                  - mode
+                  - mtime
+                  - size
+                  - gid
+                  - atime
         "400":
           description: Agent Error
           content:
