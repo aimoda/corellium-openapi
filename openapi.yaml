@@ -424,7 +424,6 @@ components:
         - status
         - identifier
         - checksum
-        - encoding
         - instance
       type: object
       properties:
@@ -1400,8 +1399,11 @@ components:
           nullable: true
         success:
           type: boolean
+        id:
+          type: number
       required:
         - success
+        - id
     AgentAppStatus:
       description: ""
       type: object
@@ -1480,9 +1482,7 @@ components:
           type: number
         success:
           type: boolean
-      required:
-        - id
-        - success
+      required: []
     AgentSystemGetPropBody:
       description: ""
       required:
@@ -2754,6 +2754,31 @@ paths:
                     error: Invalid or missing authorization token
                     errorID: PermissionDenied
                     originalError: Invalid or missing authorization token
+        "404":
+          description: 404 response
+          content:
+            application/json; charset=utf-8:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  errorID:
+                    type: string
+                  name:
+                    type: string
+                  params:
+                    type: object
+                    properties:
+                      hookId:
+                        type: string
+                    required:
+                      - hookId
+                required:
+                  - error
+                  - errorID
+                  - name
+                  - params
       parameters:
         - name: hookId
           in: path
@@ -2809,6 +2834,31 @@ paths:
                     error: Invalid or missing authorization token
                     errorID: PermissionDenied
                     originalError: Invalid or missing authorization token
+        "404":
+          description: 404 response
+          content:
+            application/json; charset=utf-8:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  errorID:
+                    type: string
+                  name:
+                    type: string
+                  params:
+                    type: object
+                    properties:
+                      identifier:
+                        type: string
+                    required:
+                      - identifier
+                required:
+                  - error
+                  - errorID
+                  - name
+                  - params
       parameters:
         - name: hookId
           in: path
@@ -2858,6 +2908,31 @@ paths:
                     error: Invalid or missing authorization token
                     errorID: PermissionDenied
                     originalError: Invalid or missing authorization token
+        "404":
+          description: 404 response
+          content:
+            application/json; charset=utf-8:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  errorID:
+                    type: string
+                  name:
+                    type: string
+                  params:
+                    type: object
+                    properties:
+                      hookId:
+                        type: string
+                    required:
+                      - hookId
+                required:
+                  - error
+                  - errorID
+                  - name
+                  - params
       parameters:
         - name: hookId
           in: path
@@ -3896,6 +3971,37 @@ paths:
       responses:
         "204":
           description: Success
+        "400":
+          description: 400 response
+          content:
+            application/json; charset=utf-8:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  errorID:
+                    type: string
+                  originalError:
+                    type: object
+                    properties:
+                      file_name:
+                        type: string
+                      line_number:
+                        type: number
+                      message:
+                        type: string
+                      name:
+                        type: string
+                    required:
+                      - file_name
+                      - line_number
+                      - message
+                      - name
+                required:
+                  - error
+                  - errorID
+                  - originalError
       parameters:
         - name: instanceId
           in: path
@@ -5303,12 +5409,17 @@ paths:
                 $ref: "#/components/schemas/Screenshot"
             application/json; charset=utf-8:
               schema:
-                type: object
-                properties:
-                  token:
-                    type: string
-                required:
-                  - token
+                oneOf:
+                  - type: object
+                    properties:
+                      token:
+                        type: string
+                      error:
+                        type: string
+                    required: []
+                  - type: array
+                    items: {}
+            text/html; charset=utf-8: {}
         "403":
           description: Forbidden
           content:
