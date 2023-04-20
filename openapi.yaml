@@ -1551,6 +1551,31 @@ components:
           description: ""
           type: number
           nullable: true
+        gpsToffs:
+          type: number
+        gpsLat:
+          type: number
+        gpsLon:
+          type: number
+        gpsAlt:
+          type: number
+        biometricPass:
+          type: number
+        acOnline:
+          type: number
+        batteryPresent:
+          type: number
+        batteryStatus:
+          type: string
+        batteryHealth:
+          type: string
+        batteryCapacity:
+          type: number
+      required:
+        - gpsToffs
+        - gpsLat
+        - gpsLon
+        - gpsAlt
     Screenshot:
       description: Screenshot Data
       type: string
