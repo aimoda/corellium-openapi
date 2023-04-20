@@ -1839,6 +1839,7 @@ components:
         - name
         - flavor
         - model
+        - quotas
       type: object
       properties:
         type:
@@ -1877,6 +1878,16 @@ components:
           description: ""
           type: boolean
           nullable: true
+        quotas:
+          type: object
+          properties:
+            cores:
+              type: number
+            cpus:
+              type: number
+          required:
+            - cores
+            - cpus
     Firmware:
       description: ""
       type: object
