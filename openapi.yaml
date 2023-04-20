@@ -5794,6 +5794,9 @@ paths:
         - CoreTrace
         - Instances
       operationId: v1StartCoreTrace
+      requestBody:
+        content:
+          text/plain;charset=UTF-8: {}
   "/v1/instances/{instanceId}/strace/disable":
     post:
       deprecated: false
@@ -5827,6 +5830,9 @@ paths:
         - CoreTrace
         - Instances
       operationId: v1StopCoreTrace
+      requestBody:
+        content:
+          text/plain;charset=UTF-8: {}
   "/v1/instances/{instanceId}/strace/thread-list":
     get:
       deprecated: false
