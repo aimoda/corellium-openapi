@@ -1955,6 +1955,11 @@ components:
           description: ""
           type: string
           nullable: true
+        uniqueid:
+          type: string
+          nullable: true
+      required:
+        - uniqueid
     ModelSoftware:
       description: ""
       type: object
