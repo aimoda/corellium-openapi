@@ -725,8 +725,10 @@ components:
           nullable: true
         cores:
           type: number
+          nullable: true
         ram:
           type: number
+          nullable: true
         tzen:
           type: string
           nullable: true
@@ -738,9 +740,38 @@ components:
         fvp:
           type: string
           nullable: true
+        kernel:
+          type: string
+          nullable: true
+        ramdisk:
+          type: string
+          nullable: true
+        partition:
+          type: string
+          nullable: true
+        devicetree:
+          type: string
+          nullable: true
+        vmfile:
+          type: string
+          nullable: true
+        sepfw:
+          type: string
+          nullable: true
+        seprom:
+          type: string
+          nullable: true
+        supportsStringUDID:
+          type: boolean
+        authorizedKeys:
+          type: string
+        kernelSlide:
+          type: string
       required:
         - noSnapshotMount
         - cdhashes
+        - supportsStringUDID
+        - authorizedKeys
     InstanceState:
       description: Current Instance State
       type: string
@@ -1051,6 +1082,10 @@ components:
         - flavor
         - project
         - os
+        - ipsw
+        - orig-ipsw-url
+        - ipsw_md5
+        - node
       type: object
       properties:
         name:
@@ -1077,10 +1112,13 @@ components:
           nullable: true
         patches:
           description: list of patches to apply
-          type: array
-          items:
-            type: string
-          nullable: true
+          oneOf:
+            - description: list of patches to apply
+              type: array
+              items:
+                type: string
+              nullable: true
+            - type: string
         fwpackage:
           description: URL or image id
           type: string
@@ -1114,6 +1152,18 @@ components:
         device:
           description: ""
           $ref: "#/components/schemas/Model"
+          nullable: true
+        ipsw:
+          type: string
+        orig-ipsw-url:
+          type: string
+        ipsw_sha1:
+          type: string
+          nullable: true
+        ipsw_md5:
+          type: string
+        node:
+          type: string
           nullable: true
     InstanceReturn:
       description: ""
