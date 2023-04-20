@@ -715,6 +715,39 @@ components:
           items:
             $ref: "#/components/schemas/InstanceBootOptionsAdditionalTag"
           nullable: true
+        noSnapshotMount:
+          type: boolean
+        cdhashes:
+          type: array
+          items: {}
+        kernelPatches:
+          type: string
+          nullable: true
+        cores:
+          type: number
+        ram:
+          type: number
+        tzen:
+          type: string
+          nullable: true
+        uefiBootldr:
+          type: string
+          nullable: true
+        bootaddr:
+          type: string
+        fvp:
+          type: string
+          nullable: true
+      required:
+        - kernelPatches
+        - cores
+        - ram
+        - noSnapshotMount
+        - tzen
+        - uefiBootldr
+        - cdhashes
+        - bootaddr
+        - fvp
     InstanceState:
       description: Current Instance State
       type: string
@@ -737,6 +770,19 @@ components:
           type: array
           items:
             type: object
+            properties:
+              devicePort:
+                type: number
+              routerPort:
+                type: number
+              status:
+                type: string
+              exposedPort:
+                type: number
+            required:
+              - devicePort
+              - routerPort
+              - status
           nullable: true
         listeners:
           description: ""
@@ -910,6 +956,62 @@ components:
           description: ""
           nullable: true
           $ref: "#/components/schemas/createdBy"
+        restoreStatus:
+          type: object
+          properties:
+            type:
+              type: string
+            progress:
+              type: string
+          required:
+            - type
+        port-usb:
+          type: string
+        port-gdb:
+          type: string
+        port-cons:
+          type: string
+        port-usbmuxd:
+          type: string
+        coreTrace:
+          type: object
+          properties:
+            enabled:
+              oneOf:
+                - type: boolean
+            filter:
+              type: array
+              items:
+                type: object
+                properties:
+                  trait:
+                    type: string
+                  value:
+                    type: string
+                required:
+                  - trait
+                  - value
+          required:
+            - enabled
+        hyperTrace:
+          type: object
+          properties:
+            enabled:
+              type: boolean
+              nullable: true
+          required:
+            - enabled
+        port-adb:
+          type: string
+        orientation:
+          type: number
+      required:
+        - restoreStatus
+        - port-gdb
+        - port-cons
+        - port-usbmuxd
+        - coreTrace
+        - hyperTrace
     createdBy:
       description: ""
       type: object
@@ -1060,6 +1162,73 @@ components:
           items:
             $ref: "#/components/schemas/ProxyConfig"
           nullable: true
+        peripherals:
+          type: object
+          properties:
+            biometricPass:
+              type: number
+            gpsLat:
+              type: string
+            gpsAlt:
+              type: string
+            gpsLon:
+              type: string
+            acceleration:
+              type: array
+              items:
+                oneOf:
+                  - type: string
+                  - type: number
+            gyroscope:
+              type: array
+              items:
+                oneOf:
+                  - type: number
+                  - type: string
+            magnetic:
+              type: array
+              items:
+                oneOf:
+                  - type: string
+                  - type: number
+            light:
+              type: string
+            pressure:
+              type: string
+            humidity:
+              type: string
+            temperature:
+              type: string
+            orientation:
+              type: array
+              items:
+                oneOf:
+                  - type: string
+                  - type: number
+            proximity:
+              type: string
+            batteryCapacity:
+              type: string
+            batteryHealth:
+              type: string
+            acOnline:
+              type: number
+            batteryStatus:
+              type: string
+          required: []
+        straceFilter:
+          type: array
+          items:
+            type: object
+            properties:
+              trait:
+                type: string
+              value:
+                type: string
+            required:
+              - trait
+              - value
+      required: []
     ProxyConfig:
       description: Represents a Proxy configuration object.
       type: object
@@ -3164,6 +3333,9 @@ paths:
       tags:
         - Instances
       operationId: v1DeleteInstance
+      requestBody:
+        content:
+          text/plain;charset=UTF-8: {}
   "/v1/instances/{instanceId}/agent/v1/app/ready":
     get:
       deprecated: false
