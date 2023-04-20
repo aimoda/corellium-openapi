@@ -422,6 +422,10 @@ components:
       description: ""
       required:
         - status
+        - identifier
+        - checksum
+        - encoding
+        - instance
       type: object
       properties:
         status:
@@ -482,6 +486,14 @@ components:
           type: string
           format: date-time
           nullable: true
+        identifier:
+          type: string
+        checksum:
+          type: "null"
+        encoding:
+          type: string
+        instance:
+          type: "null"
     ImageCreationOptions:
       description: ""
       required:
@@ -631,6 +643,11 @@ components:
           description: params provided by user
           type: object
           nullable: true
+          properties:
+            imageId:
+              type: string
+          required:
+            - imageId
     File:
       description: A File
       type: string
