@@ -770,8 +770,6 @@ components:
       required:
         - noSnapshotMount
         - cdhashes
-        - supportsStringUDID
-        - authorizedKeys
     InstanceState:
       description: Current Instance State
       type: string
