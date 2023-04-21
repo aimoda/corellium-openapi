@@ -3581,7 +3581,8 @@ paths:
       operationId: v1DeleteInstance
       requestBody:
         content:
-          text/plain;charset=UTF-8: {}
+          text/plain;charset=UTF-8:
+            schema: {}
   "/v1/instances/{instanceId}/agent/v1/app/ready":
     get:
       deprecated: false
@@ -4723,7 +4724,8 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/InstanceStopOptions"
-          text/plain;charset=UTF-8: {}
+          text/plain;charset=UTF-8:
+            schema: {}
         description: Stop options
         required: false
       operationId: v1StopInstance
@@ -4775,7 +4777,8 @@ paths:
       operationId: v1RebootInstance
       requestBody:
         content:
-          text/plain;charset=UTF-8: {}
+          text/plain;charset=UTF-8:
+            schema: {}
   "/v1/instances/{instanceId}/pause":
     post:
       deprecated: false
@@ -4824,7 +4827,8 @@ paths:
       operationId: v1PauseInstance
       requestBody:
         content:
-          text/plain;charset=UTF-8: {}
+          text/plain;charset=UTF-8:
+            schema: {}
   "/v1/instances/{instanceId}/unpause":
     post:
       deprecated: false
@@ -4873,7 +4877,8 @@ paths:
       operationId: v1UnpauseInstance
       requestBody:
         content:
-          text/plain;charset=UTF-8: {}
+          text/plain;charset=UTF-8:
+            schema: {}
   "/v1/instances/{instanceId}/state":
     put:
       deprecated: false
@@ -5488,7 +5493,8 @@ paths:
                     required: []
                   - type: array
                     items: {}
-            text/html; charset=utf-8: {}
+            text/html; charset=utf-8:
+              schema: {}
         "403":
           description: Forbidden
           content:
@@ -6037,7 +6043,8 @@ paths:
       operationId: v1StartCoreTrace
       requestBody:
         content:
-          text/plain;charset=UTF-8: {}
+          text/plain;charset=UTF-8:
+            schema: {}
   "/v1/instances/{instanceId}/strace/disable":
     post:
       deprecated: false
@@ -6073,7 +6080,8 @@ paths:
       operationId: v1StopCoreTrace
       requestBody:
         content:
-          text/plain;charset=UTF-8: {}
+          text/plain;charset=UTF-8:
+            schema: {}
   "/v1/instances/{instanceId}/strace/thread-list":
     get:
       deprecated: false
@@ -6441,7 +6449,8 @@ paths:
       operationId: v1StartNetworkMonitor
       requestBody:
         content:
-          text/plain;charset=UTF-8: {}
+          text/plain;charset=UTF-8:
+            schema: {}
   "/v1/instances/{instanceId}/sslsplit/disable":
     post:
       deprecated: false
@@ -6476,7 +6485,8 @@ paths:
       operationId: v1StopNetworkMonitor
       requestBody:
         content:
-          text/plain;charset=UTF-8: {}
+          text/plain;charset=UTF-8:
+            schema: {}
   "/v1/instances/{instanceId}/exposeport/enable":
     post:
       deprecated: false
@@ -7461,7 +7471,8 @@ paths:
       operationId: v1DeleteProject
       requestBody:
         content:
-          text/plain;charset=UTF-8: {}
+          text/plain;charset=UTF-8:
+            schema: {}
   "/v1/projects/{projectId}/instances":
     get:
       deprecated: false
@@ -7777,7 +7788,8 @@ paths:
       operationId: v1RemoveProjectKey
       requestBody:
         content:
-          text/plain;charset=UTF-8: {}
+          text/plain;charset=UTF-8:
+            schema: {}
   /v1/roles:
     get:
       deprecated: false
@@ -7890,7 +7902,8 @@ paths:
       operationId: v1AddUserRoleToProject
       requestBody:
         content:
-          text/plain;charset=UTF-8: {}
+          text/plain;charset=UTF-8:
+            schema: {}
     delete:
       deprecated: false
       summary: Remove user role from project
@@ -7950,7 +7963,8 @@ paths:
       operationId: v1RemoveUserRoleFromProject
       requestBody:
         content:
-          text/plain;charset=UTF-8: {}
+          text/plain;charset=UTF-8:
+            schema: {}
   "/v1/roles/projects/{projectId}/teams/{teamId}/roles/{roleId}":
     put:
       deprecated: false
@@ -8011,7 +8025,8 @@ paths:
       operationId: v1AddTeamRoleToProject
       requestBody:
         content:
-          text/plain;charset=UTF-8: {}
+          text/plain;charset=UTF-8:
+            schema: {}
     delete:
       deprecated: false
       summary: Remove team role from project
@@ -8071,7 +8086,8 @@ paths:
       operationId: v1RemoveTeamRoleFromProject
       requestBody:
         content:
-          text/plain;charset=UTF-8: {}
+          text/plain;charset=UTF-8:
+            schema: {}
   "/v1/snapshots/{snapshotId}":
     get:
       deprecated: false
@@ -8258,7 +8274,8 @@ paths:
       operationId: v1DeleteSnapshot
       requestBody:
         content:
-          text/plain;charset=UTF-8: {}
+          text/plain;charset=UTF-8:
+            schema: {}
   /v1/teams:
     get:
       deprecated: false
@@ -8456,7 +8473,8 @@ paths:
       operationId: v1TeamDelete
       requestBody:
         content:
-          text/plain;charset=UTF-8: {}
+          text/plain;charset=UTF-8:
+            schema: {}
   "/v1/teams/{teamId}/users/{userId}":
     put:
       deprecated: false
@@ -8506,7 +8524,8 @@ paths:
       operationId: v1AddUserToTeam
       requestBody:
         content:
-          text/plain;charset=UTF-8: {}
+          text/plain;charset=UTF-8:
+            schema: {}
     delete:
       deprecated: false
       summary: Remove user from team
@@ -8555,7 +8574,8 @@ paths:
       operationId: v1RemoveUserFromTeam
       requestBody:
         content:
-          text/plain;charset=UTF-8: {}
+          text/plain;charset=UTF-8:
+            schema: {}
   /v1/users:
     post:
       deprecated: false
@@ -8717,7 +8737,8 @@ paths:
       operationId: v1DeleteUser
       requestBody:
         content:
-          text/plain;charset=UTF-8: {}
+          text/plain;charset=UTF-8:
+            schema: {}
   /v1/users/login:
     post:
       deprecated: false
